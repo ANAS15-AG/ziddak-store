@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>🛒 متجر ضدك ZIDDAK</title>
+  <style>
+    body {
+      font-family: 'Tahoma', sans-serif;
+      background-color: #fefefe;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #ff0066;
+      color: white;
+      padding: 30px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    .login {
+      margin: 30px;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .product {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin: 10px;
+      padding: 15px;
+      width: 200px;
+      background: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .product:hover {
+      transform: scale(1.05);
+      background-color: #f9f9f9;
+    }
+
+    .product img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 20px;
+      background-color: #eee;
+    }
+
+    #login-message {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🛍️ متجر ضدك ZIDDAK</h1>
+    <p>تسوق منتجات غريبة... أو مو اللي اخترتها 🤪</p>
+  </header>
+
+  <section class="login">
+    <h2>تسجيل الدخول</h2>
+    <input type="text" id="username" placeholder="اسم المستخدم" oninput="scramble(this)">
+    <input type="password" id="password" placeholder="كلمة المرور" oninput="scramble(this)">
+    <button onclick="login()">تسجيل الدخول</button>
+    <div id="login-message"></div>
+  </section>
+
+  <section class="products" id="products">
+    <!-- المنتجات تظهر من JavaScript -->
+  </section>
+
+  <footer>
+    <p>جميع الحقوق محفوظة 🤷‍♂️ متجر ضدك</p>
+  </footer>
+
+  <script>
+    const productsReal = [
+      { name: "موزة كهربائية", img: "https://via.placeholder.com/200x150?text=موزة+كهربائية" },
+      { name: "سماعة مائية", img: "https://via.placeholder.com/200x150?text=سماعة+مائية" },
+      { name: "كيس نوم للقطط", img: "https://via.placeholder.com/200x150?text=كيس+نوم+قطط" },
+      { name: "فرشاة طيران", img: "https://via.placeholder.com/200x150?text=فرشاة+طيران" }
+    ];
+
+    const productsFake = [
+      { name: "هاتف خشبي", img: "https://via.placeholder.com/200x150?text=هاتف+خشبي" },
+      { name: "معجون مشاوي", img: "https://via.placeholder.com/200x150?text=معجون+مشاوي" },
+      { name: "شاحن يعمل بالفحم", img: "https://via.placeholder.com/200x150?text=شاحن+فحم" },
+      { name: "كمامة مشوية", img: "https://via.placeholder.com/200x150?text=كمامة+مشوية" }
+    ];
+
+    function scramble(input) {
+      const map = {
+        'ا': 'ب', 'ب': 'ت', 'ت': 'ث', 'ث': 'ج', 'ج': 'ح',
+        'ح': 'خ', 'خ': 'د', 'د': 'ذ', 'ذ': 'ر', 'ر': 'ز',
+        'ز': 'س', 'س': 'ش', 'ش': 'ص', 'ص': 'ض', 'ض': 'ط',
+        'ط': 'ظ', 'ظ': 'ع', 'ع': 'غ', 'غ': 'ف', 'ف': 'ق',
+        'ق': 'ك', 'ك': 'ل', 'ل': 'م', 'م': 'ن', 'ن': 'ه',
+        'ه': 'و', 'و': 'ي', 'ي': 'ا'
+      };
+      let val = input.value;
+      let lastChar = val.slice(-1);
+      let replaced = map[lastChar] || lastChar;
+      input.value = val.slice(0, -1) + replaced;
+    }
+
+    function login() {
+      document.getElementById('login-message').innerText = "❌ فشل تسجيل الدخول بسبب النجاح!";
+    }
+
+    function loadProducts() {
+      const container = document.getElementById('products');
+      productsReal.forEach((real, i) => {
+        let fake = productsFake[i];
+        let div = document.createElement('div');
+        div.className = 'product';
+        div.innerHTML = `
+          <img src="${real.img}" alt="${real.name}">
+          <h3>${real.name}</h3>
+          <p>سعر: ${Math.floor(Math.random() * 300 + 50)} ريال</p>
+        `;
+        div.onclick = () => {
+          alert(`✅ تمت إضافة "${fake.name}" إلى السلة`);
+        };
+        container.appendChild(div);
+      });
+    }
+
+    window.onload = loadProducts;
+  </script>
+
+</body>
+</html>
